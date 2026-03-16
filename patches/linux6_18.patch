@@ -1,0 +1,37 @@
+From ce2a1bd0564b7f64ef5c3785f07ee9551e74b3c5 Mon Sep 17 00:00:00 2001
+From: xiaoguo <740644717@qq.com>
+Date: Mon, 16 Mar 2026 14:43:55 +0800
+Subject: [PATCH] workstation-17.6.4: skip objtool checks for Linux 6.18 build
+
+---
+ vmmon-only/Makefile.kernel | 1 +
+ vmnet-only/Makefile.kernel | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/vmmon-only/Makefile.kernel b/vmmon-only/Makefile.kernel
+index 5bba764..caedeef 100644
+--- a/vmmon-only/Makefile.kernel
++++ b/vmmon-only/Makefile.kernel
+@@ -24,6 +24,7 @@ INCLUDE := -I$(SRCROOT)/include -I$(SRCROOT)/include/x86 -I$(SRCROOT)/common -I$
+ ccflags-y := $(CC_OPTS) $(INCLUDE)
+ 
+ obj-m += $(DRIVER).o
++OBJECT_FILES_NON_STANDARD := y
+ 
+ $(DRIVER)-y := $(subst $(SRCROOT)/, , $(patsubst %.c, %.o, \
+ 		$(wildcard $(SRCROOT)/linux/*.c $(SRCROOT)/common/*.c \
+diff --git a/vmnet-only/Makefile.kernel b/vmnet-only/Makefile.kernel
+index 44a8a95..d7b8d9f 100644
+--- a/vmnet-only/Makefile.kernel
++++ b/vmnet-only/Makefile.kernel
+@@ -23,6 +23,7 @@ EXTRA_CFLAGS := $(CC_OPTS) $(INCLUDE)
+ EXTRA_CFLAGS += $(call vm_check_build, $(SRCROOT)/netif_trans_update.c,-DVMW_NETIF_TRANS_UPDATE, )
+ 
+ obj-m += $(DRIVER).o
++OBJECT_FILES_NON_STANDARD := y
+ 
+ $(DRIVER)-y := driver.o hub.o userif.o netif.o bridge.o procfs.o smac_compat.o \
+ 	       smac.o vnetEvent.o vnetUserListener.o
+-- 
+2.53.0
+
