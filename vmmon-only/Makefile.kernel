@@ -24,6 +24,7 @@ INCLUDE := -I$(SRCROOT)/include -I$(SRCROOT)/include/x86 -I$(SRCROOT)/common -I$
 ccflags-y := $(CC_OPTS) $(INCLUDE)
 
 obj-m += $(DRIVER).o
+OBJECT_FILES_NON_STANDARD := y
 
 $(DRIVER)-y := $(subst $(SRCROOT)/, , $(patsubst %.c, %.o, \
 		$(wildcard $(SRCROOT)/linux/*.c $(SRCROOT)/common/*.c \
